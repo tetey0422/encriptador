@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Encriptador</title>
+    <link rel="stylesheet" href="./style/style.css">
+</head>
+
+<body>
+    <header>
+        <img class="logo" src="./imagenes/Logo.png" alt="Logo Aura">
+    </header>
+    <main class="todo">
+        <div class="contenedor">
+            <div>
+                <textarea id="texto" placeholder="Ingrese el texto aquí" rows="10"></textarea>
+            </div>
+            <div>
+                <p class="requerimiento"><img src="./imagenes/Vector.png" alt="">&nbsp;Solo letras minúsculas y sin
+                    acentos</p>
+                <div class="botones">
+                    <button id="encriptar" onclick="encriptar_texto()">Encriptar</button>
+                    <button id="desencriptar" onclick="desencriptar_texto()">Desencriptar</button>
+                </div>
+            </div>
+        </div>
+        <div class="cuadro">
+            <img class="muñeco" id="muñeco" src="./imagenes/Muñeco.png" alt="Muñeco">
+            <div>
+                <p id="resultado"></p>
+            </div>
+            <div class="subcuadrado" id="subcuadrado">
+                <p class="titulo">Ningún mensaje fue encontrado</p>
+                <p class="texto">Ingresa el texto que desees encriptar o desencriptar.</p>
+            </div>
+            <div>
+                <button class="boton_copiar" id="copiar" onclick="copiar()">Copiar</button>
+            </div>
+        </div>
+        <div class="cuadro_2">
+        </div>
+    </main>
+    <footer class="referencia">
+        <p>Desarrollado por <a href="https://github.com/tetey0422">Jefrey Sánchez Arenas</a></p>
+    </footer>
+    <script>
+        function encriptar(texto) {
+            const llaves = {
+                'a': 'ai',
+                'e': 'enter',
+                'i': 'imes',
+                'o': 'ober',
+                'u': 'ufat',
+            }
+            return texto.split("").map((c) => llaves[c] || c).join("")
+        }
+        function desencriptar(texto) {
+            let texto_original = texto
+            const llaves = {
+                'ai': 'a',
+                'enter': 'e',
+                'imes': 'i',
+                'ober': 'o',
+                'ufat': 'u',
+            }
+            for (const [encriptado, original] of Object.entries(llaves)) {
+                texto_original = texto_original.split(encriptado).join(original)
+            }
+            return texto_original
+        }
+        function encriptar_texto() {
+            const texto = document.getElementById("texto").value;
+            const resultado = encriptar(texto);
+            document.getElementById("resultado").innerHTML = resultado;
+            document.getElementById("muñeco").style.display = "none"
+            document.getElementById("subcuadrado").style.display = "none"
+            document.getElementById("copiar").classList.remove("boton_copiar")
+        }
+        function desencriptar_texto() {
+            const texto = document.getElementById("texto").value;
+            const resultado = desencriptar(texto);
+            document.getElementById("resultado").innerHTML = resultado;
+            document.getElementById("muñeco").style.display = "none"
+            document.getElementById("subcuadrado").style.display = "none"
+            document.getElementById("copiar").classList.remove("boton_copiar")
+        }
+        function copiar() {
+            navigator.clipboard.writeText(document.getElementById("resultado").innerHTML);
+            const copiarButton = document.getElementById("copiar");
+            copiarButton.innerHTML = 'Copiado';
+            setTimeout(() => {
+                copiarButton.innerHTML = 'Copiar';
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>
